@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的导航</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="wrapper" id="div2"></div>
+    </main>
+    <footer></footer>
+</body>
+<script>
+    keys = {
+        '0':['q','w','e','r','t','y','u','i','o','p'],
+        '1':['a','s','d','f','g','h','j','k','l'],
+        '2':['z','x','c','v','b','n','m'],
+        'length':3
+    };
+    hash = {
+        'q':'qq.com',
+        'w':'weibo.com',
+        'e':'ele.com',
+        'r':'renren.com',
+        't':'taobao.com',
+        'y':'yutube.com',
+        'u':undefined,
+        'i':'iqiyi.com',
+        'o':undefined,
+        'p':'pptv.com'
+    };
+    hashinStorage=JSON.parse(localStorage.getItem('hash') || 'null');
+    if(hashinStorage){
+        hash=hashinStorage;
+    }
+    index=0;
+    while(index<keys['length']){
+        div1=document.createElement('div');
+        div2.appendChild(div1);
+        index2=0;
+        while(index2<keys[index].length){
+            kbd=document.createElement('kbd');
+            div1.appendChild(kbd);
+            kbd.textContent=keys[index][index2];
+            button=document.createElement('button');
+            button.textContent='编辑'
+            button.id=keys[index][index2];
+            button.onclick=function(e){
+                value=prompt("给我一个网址");
+                key=e.target.id;
+                hash[key]=value;
+                localStorage.setItem('hash',JSON.stringify(hash));
+            }
+            kbd.appendChild(button);
+            index2=index2+1;
+        }
+        index=index+1;
+    }
+
+    document.onkeypress=function(e){
+       window.open('http://'+hash[e.key],'_blank');
+    }
+</script>
+</html>

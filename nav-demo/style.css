@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+main{
+    text-align: center;
+}
+#div2{
+    display: inline-block;
+}
+kbd{
+    border: 1px solid red;
+    width: 4em;
+    height: 4em;
+    display: inline-block;
+    position: relative;
+}
+kbd button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-style: none;
+    display: none;
+}
+kbd:hover button{
+    display: inline-block;
+}
+
