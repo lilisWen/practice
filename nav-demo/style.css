@@ -1,12 +1,20 @@
 body{
     margin: 0;
     padding: 0;
+    /* background: lightgray url(./alum.png) no-repeat center center; */
+   background-image: url(./alum.png);
+   /* background-size: cover; */
 }
 a{
     text-decoration: none;
 }
 main{
     text-align: center;
+    height: 100vh;
+    /* vh viewport height */
+    display: flex;
+    align-items: center; 
+    justify-content: center;
 }
 #div2{
     display: inline-block;
@@ -17,15 +25,57 @@ kbd{
     height: 4em;
     display: inline-block;
     position: relative;
+    text-transform: uppercase;
 }
 kbd button{
     position: absolute;
     bottom: 0;
     right: 0;
-    border-style: none;
+    border: none;
     display: none;
+    border-radius: 5px;
+    padding: 0;
+    background-color:rgba(0,0,0,0.1);
+    color: white;
 }
 kbd:hover button{
     display: inline-block;
 }
-
+.key{
+    height: 48px;
+    width: 50px;
+    background: linear-gradient(to bottom, #292929 0%,#111111 100%);
+    border: 1px solid #373737; 
+    color: #c5c5c5;
+    border-radius: 7px;
+    box-shadow: 0 0 0 1px #1a1b1c,0 0 0 2px #1F2020,0 3px 0 2px #000000; 
+    margin: 0 10px;
+    font-size: 16px;
+    font-family: Helvetica;
+    position: relative;
+}
+.key span{
+    position: absolute;
+    left: 4px;
+    top: 2px;
+}
+.key img{
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+}
+.row{
+    margin: 20px;
+}
+#main{
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+}
+#main div:nth-child(2){
+    margin-left: -22px;
+}
+#main div:nth-child(3){
+    margin-left: -100px;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,62 +8,129 @@
     <title>我的导航</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
     <header></header>
     <main>
-        <div class="wrapper" id="div2"></div>
+        <div class="wrapper" id="main"></div>
     </main>
     <footer></footer>
 </body>
 <script>
-    keys = {
-        '0':['q','w','e','r','t','y','u','i','o','p'],
-        '1':['a','s','d','f','g','h','j','k','l'],
-        '2':['z','x','c','v','b','n','m'],
-        'length':3
-    };
-    hash = {
-        'q':'qq.com',
-        'w':'weibo.com',
-        'e':'ele.com',
-        'r':'renren.com',
-        't':'taobao.com',
-        'y':'yutube.com',
-        'u':undefined,
-        'i':'iqiyi.com',
-        'o':undefined,
-        'p':'pptv.com'
-    };
-    hashinStorage=JSON.parse(localStorage.getItem('hash') || 'null');
-    if(hashinStorage){
-        hash=hashinStorage;
-    }
-    index=0;
-    while(index<keys['length']){
-        div1=document.createElement('div');
-        div2.appendChild(div1);
-        index2=0;
-        while(index2<keys[index].length){
-            kbd=document.createElement('kbd');
-            div1.appendChild(kbd);
-            kbd.textContent=keys[index][index2];
-            button=document.createElement('button');
-            button.textContent='编辑'
-            button.id=keys[index][index2];
-            button.onclick=function(e){
-                value=prompt("给我一个网址");
-                key=e.target.id;
-                hash[key]=value;
-                localStorage.setItem('hash',JSON.stringify(hash));
-            }
-            kbd.appendChild(button);
-            index2=index2+1;
+    //1.初始化数据
+    var hashA = Init()
+    var keys = hashA['keys']
+    var hash = hashA['hash']
+
+    //2.生成键盘
+    generateKbd(keys, hash)
+
+    //3.监听键盘点击事件
+    listenKbd(hash)
+
+    //工具函数 
+    function Init() {
+        var keys = {
+            '0': ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+            '1': ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+            '2': ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+            'length': 3
         }
-        index=index+1;
+        var hash = {
+            'q': 'qq.com',
+            'w': 'weibo.com',
+            'e': 'ele.com',
+            'r': 'renren.com',
+            't': 'taobao.com',
+            'y': 'yutube.com',
+            'u': undefined,
+            'i': 'iqiyi.com',
+            'o': undefined,
+            'p': 'pptv.com',
+            'z': 'zhihu.com'
+        }
+        var hashinStorage = findFromlStorage('hash')
+        if (hashinStorage) {
+            hash = hashinStorage;
+        }
+        return {
+            'keys': keys,
+            'hash': hash
+        }
     }
 
-    document.onkeypress=function(e){
-       window.open('http://'+hash[e.key],'_blank');
+    function generateKbd(keys, hash) {
+        for (var index = 0; index < keys['length']; index++) {
+            var div1 = createtag('div', { 'className': 'row' })
+
+            main.appendChild(div1)
+
+            var row = keys[index]
+            for (var index2 = 0; index2 < row.length; index2++) {
+                var span = createtag('span', { 'textContent': row[index2] })
+
+                var button = createButton(row[index2])
+
+                var img = createImg(hash[row[index2]])
+
+                var kbd = createtag('kbd', { 'className': 'key' })
+
+                kbd.appendChild(button)
+                kbd.appendChild(span)
+                kbd.appendChild(img)
+                div1.appendChild(kbd)
+            }
+        }
+    }
+    function findFromlStorage(name) {
+        return JSON.parse(localStorage.getItem(name) || 'null')
+    }
+
+    function createtag(tname, attributes) {
+        var element = document.createElement(tname)
+        for (var i in attributes) {
+            element[i] = attributes[i]
+        }
+        return element
+    }
+
+    function createButton(id) {
+        var button = createtag('button', { 'textContent': '编辑', 'id': id })
+        button.onclick = function (e) {
+            value = prompt("给我一个网址")
+            if (value) {
+                key = e.target.id
+                console.log(e.target.nextSibling.nextSibling)
+                img2 = e.target.nextSibling.nextSibling
+                img2.src = 'http://' + value + '/favicon.ico'
+                img2.onerror = function () {
+                    img2.src = './icon.png'
+                }
+                hash[key] = value
+                localStorage.setItem('hash', JSON.stringify(hash))
+            }
+        }
+        return button
+    }
+
+    function createImg(domain) {
+        var img = createtag('img')
+        if (domain) {
+            img.src = 'http://' + domain + '/favicon.ico'
+        } else {
+            img.src = './icon.png'
+        }
+        img.onerror = function (e) {
+            e.target.src = './icon.png'
+        }
+        return img
+    }
+
+    function listenKbd(hash) {
+        document.onkeypress = function (e) {
+            window.open('http://' + hash[e.key], '_blank')
+        }
     }
 </script>
+
 </html>
