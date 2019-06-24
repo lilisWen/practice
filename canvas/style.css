@@ -3,9 +3,11 @@
     padding: 0;
 }
 body{
-   
     /* background:url(./网格.png);
     background-size: cover; */
+    overflow: hidden;
+}
+#ca{
     overflow: hidden;
 }
 ul{
