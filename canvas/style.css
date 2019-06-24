@@ -10,6 +10,12 @@ body{
 ul{
     list-style: none;
 }
+canvas{
+    margin-top: 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
 .icon {
     width: 1em; height: 1em;
     vertical-align: -0.15em;
@@ -45,6 +51,10 @@ ul{
     float: left;
     margin-right: 15px;
     border-radius: 50%;
+    transition: all 0.3s;
+}
+#colors li.active{
+    transform: scale(1.2);
 }
 #black{
     background-color: black;
@@ -95,6 +105,4 @@ ul{
     display: block;
     clear: both;
 }
-tianna{
-    
-}
+

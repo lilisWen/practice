@@ -21,14 +21,23 @@ brush.onclick = function () {
 red.onclick = function () {
     context.fillStyle = 'brown'
     context.strokeStyle = 'brown'
+    red.classList.add('active')
+    blue.classList.remove('active')
+    black.classList.remove('active')
 }
 blue.onclick = function () {
     context.fillStyle = 'cornflowerblue'
     context.strokeStyle = 'cornflowerblue'
+    blue.classList.add('active')
+    red.classList.remove('active')
+    black.classList.remove('active')
 }
 black.onclick = function () {
     context.fillStyle = 'black'
     context.strokeStyle = 'black'
+    black.classList.add('active')
+    blue.classList.remove('active')
+    red.classList.remove('active')
 }
 thin.onclick = function () {
     lwidth = 5;
@@ -59,7 +68,7 @@ function listenToUser() {
         //手机端
         div.ontouchstart = function (e) {
             var x = e.touches[0].clientX
-            var y = e.touches[0].clientY
+            var y = e.touches[0].clientY - 40
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -71,7 +80,7 @@ function listenToUser() {
         div.ontouchmove = function (e) {
             if (using) {
                 var x = e.touches[0].clientX
-                var y = e.touches[0].clientY
+                var y = e.touches[0].clientY - 40
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -89,7 +98,7 @@ function listenToUser() {
         //pc端
         div.onmousedown = function (e) {
             var x = e.clientX
-            var y = e.clientY
+            var y = e.clientY - 40
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -101,7 +110,7 @@ function listenToUser() {
         div.onmousemove = function (e) {
             if (using) {
                 var x = e.clientX
-                var y = e.clientY
+                var y = e.clientY - 40
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -135,7 +144,7 @@ function setCanvasSize() {
     var pageWidth = document.documentElement.clientWidth
     var pageHeight = document.documentElement.clientHeight
     div.width = pageWidth
-    div.height = pageHeight
+    div.height = pageHeight - 60
 }
 function autoSetCanvasSize() {
     setCanvasSize()
