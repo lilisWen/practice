@@ -65,7 +65,7 @@ ul{
 #sizes{
     position: fixed;
     top: 12px;
-    right: 55px;
+    left: 220px;
 }
 #sizes>li{
     margin-bottom: 12px;
