@@ -12,10 +12,31 @@
 <body>
     <canvas id="canvas"></canvas>
     <div class="action" id="actions">
-        <button id="eraser">橡皮擦</button>
-        <button id="brush">画笔</button>
+        <svg class="icon active" id="brush">
+            <use xlink:href="#icon-pen1"></use>
+        </svg>
+        <svg class="icon" id="eraser">
+            <use xlink:href="#icon-eraser-ps"></use>
+        </svg>
     </div>
+    <ul id="colors" class="clearfix">
+        <li id="black" class="black"></li>
+        <li id="red" class="red"></li>
+        <!-- <li id="pink" class="pink"></li> -->
+        <li id="blue" class="blue"></li>
+    </ul>
+    <ul id="sizes">
+        <li id="thin" class="thin"></li>
+        <li id="thick" class="thick"></li>
+    </ul>
+    <svg class="icon" id="save">
+        <use xlink:href="#icon-download"></use>
+    </svg>
+    <svg class="icon" id="clear">
+        <use xlink:href="#icon-lajitong"></use>
+    </svg>
 </body>
 <script src="./main.js"></script>
+<script src="//at.alicdn.com/t/font_1257423_eeu42in0tk8.js"></script>
 
 </html>

@@ -1,21 +1,101 @@
-body{
+*{
     margin: 0;
     padding: 0;
 }
-#canvas{
-    background-color: pink;
+body{
+   
+    /* background:url(./网格.png);
+    background-size: cover; */
+    overflow: hidden;
 }
+ul{
+    list-style: none;
+}
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+ }
+ canvas{
+     margin-top: 40px;
+ }
 .action{
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+.action svg{
+    width: 1.6em;
+    height: 1.6em;
+    transition: all 0.3s;
+    margin-right: 5px;
+    fill: lightgray;
+}
+.action svg.active{
+    fill:palevioletred;
+    transform: scale(1.2);
+}
+#colors{
+    position: fixed;
+    top: 8px;
+    left: 90px;
+}
+#colors>li{
+    width: 26px;
+    height: 26px;
+    border: 1px solid lightgray;
+    float: left;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+#black{
+    background-color: black;
+}
+#red{
+    background-color: brown;
+}
+#pink{
+    background-color: palevioletred;
+}
+#blue{
+    background-color: cornflowerblue;
+}
+#sizes{
+    position: fixed;
+    top: 12px;
+    right: 55px;
+}
+#sizes>li{
+    margin-bottom: 12px;
+}
+.thin{
+    height: 0;
+    width: 40px;
+    border-top: 3px solid black;
+}
+.thick{
+    height: 0;
+    width: 40px;
+    border-top: 5px solid black;
+}
+#clear{
     position: fixed;
     bottom: 0;
     left: 0;
+    width: 1.6em;
+    height: 1.6em;
 }
-.action.x  #brush{
-    display: inline-block;
+#save{
+    position: fixed;
+    right: 10px;
+    top: 8px;
+    width: 1.6em;
+    height: 1.6em;
 }
-.action.x #eraser{ 
-    display: none;
-}
-.action #brush{
-    display: none;
+.clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
 }

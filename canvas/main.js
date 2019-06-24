@@ -1,7 +1,7 @@
 var div = document.getElementById('canvas')
 var eraser = document.getElementById('eraser')
 var context = div.getContext('2d')
-
+var lwidth = 5;
 autoSetCanvasSize()
 
 listenToUser()
@@ -9,13 +9,51 @@ listenToUser()
 var eraserEnabled = false
 eraser.onclick = function () {
     eraserEnabled = true
-    actions.className = 'action x'
+    eraser.classList.add('active')
+    brush.classList.remove('active')
 }
 brush.onclick = function () {
     eraserEnabled = false
-    actions.className = 'action'
+    brush.classList.add('active')
+    eraser.classList.remove('active')
 }
 
+red.onclick = function () {
+    context.fillStyle = 'brown'
+    context.strokeStyle = 'brown'
+}
+
+// pink.onclick = function () {
+//     context.fillStyle = 'palevioletred'
+//     context.strokeStyle = 'palevioletred'
+// }
+
+blue.onclick = function () {
+    context.fillStyle = 'cornflowerblue'
+    context.strokeStyle = 'cornflowerblue'
+}
+black.onclick = function () {
+    context.fillStyle = 'black'
+    context.strokeStyle = 'black'
+}
+thin.onclick = function () {
+    lwidth = 5;
+}
+thick.onclick = function () {
+    lwidth = 8;
+}
+clear.onclick = function () {
+    context.clearRect(0, 0, div.width, div.height)
+}
+save.onclick = function () {
+    var url = div.toDataURL("image/png")
+    var a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = url
+    a.target = "_blank"
+    a.download = '我的画'
+    a.click()
+}
 //特性检测
 function listenToUser() {
     var using = false
@@ -27,7 +65,7 @@ function listenToUser() {
         //手机端
         div.ontouchstart = function (e) {
             var x = e.touches[0].clientX
-            var y = e.touches[0].clientY
+            var y = e.touches[0].clientY - 40
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -39,7 +77,7 @@ function listenToUser() {
         div.ontouchmove = function (e) {
             if (using) {
                 var x = e.touches[0].clientX
-                var y = e.touches[0].clientY
+                var y = e.touches[0].clientY - 40
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -50,14 +88,14 @@ function listenToUser() {
                 }
             }
         }
-        div.ontouchend = function () {
+        div.ontouchend = function (e) {
             using = false
         }
     } else {
         //pc端
         div.onmousedown = function (e) {
             var x = e.clientX
-            var y = e.clientY
+            var y = e.clientY - 40
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -69,7 +107,7 @@ function listenToUser() {
         div.onmousemove = function (e) {
             if (using) {
                 var x = e.clientX
-                var y = e.clientY
+                var y = e.clientY - 40
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -90,7 +128,7 @@ function listenToUser() {
 function drawLine(x1, y1, x2, y2) {
     context.beginPath()
     context.moveTo(x1, y1)
-    context.lineWidth = 5
+    context.lineWidth = lwidth
     context.lineTo(x2, y2)
     context.stroke()
 }
@@ -103,7 +141,7 @@ function setCanvasSize() {
     var pageWidth = document.documentElement.clientWidth
     var pageHeight = document.documentElement.clientHeight
     div.width = pageWidth
-    div.height = pageHeight
+    div.height = pageHeight - 60
 }
 function autoSetCanvasSize() {
     setCanvasSize()
