@@ -65,7 +65,7 @@ function listenToUser() {
         //手机端
         div.ontouchstart = function (e) {
             var x = e.touches[0].clientX
-            var y = e.touches[0].clientY - 40
+            var y = e.touches[0].clientY
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -77,7 +77,7 @@ function listenToUser() {
         div.ontouchmove = function (e) {
             if (using) {
                 var x = e.touches[0].clientX
-                var y = e.touches[0].clientY - 40
+                var y = e.touches[0].clientY
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -95,7 +95,7 @@ function listenToUser() {
         //pc端
         div.onmousedown = function (e) {
             var x = e.clientX
-            var y = e.clientY - 40
+            var y = e.clientY
             using = true
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
@@ -107,7 +107,7 @@ function listenToUser() {
         div.onmousemove = function (e) {
             if (using) {
                 var x = e.clientX
-                var y = e.clientY - 40
+                var y = e.clientY
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
@@ -141,7 +141,7 @@ function setCanvasSize() {
     var pageWidth = document.documentElement.clientWidth
     var pageHeight = document.documentElement.clientHeight
     div.width = pageWidth
-    div.height = pageHeight - 60
+    div.height = pageHeight
 }
 function autoSetCanvasSize() {
     setCanvasSize()

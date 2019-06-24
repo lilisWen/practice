@@ -7,11 +7,6 @@ body{
     background-size: cover; */
     overflow: hidden;
 }
-#ca{
-    position: fixed;
-    top: 0;
-    left: 0;
-}
 ul{
     list-style: none;
 }
@@ -20,9 +15,6 @@ ul{
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
- }
- canvas{
-     margin-top: 40px;
  }
 .action{
     position: fixed;
@@ -104,5 +96,5 @@ ul{
     clear: both;
 }
 tianna{
-    
+
 }
