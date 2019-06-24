@@ -8,7 +8,9 @@ body{
     overflow: hidden;
 }
 #ca{
-    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 ul{
     list-style: none;
