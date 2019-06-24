@@ -22,12 +22,6 @@ red.onclick = function () {
     context.fillStyle = 'brown'
     context.strokeStyle = 'brown'
 }
-
-// pink.onclick = function () {
-//     context.fillStyle = 'palevioletred'
-//     context.strokeStyle = 'palevioletred'
-// }
-
 blue.onclick = function () {
     context.fillStyle = 'cornflowerblue'
     context.strokeStyle = 'cornflowerblue'
