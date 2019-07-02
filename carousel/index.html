@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        ul {
+            margin-left: 40%;
+            list-style: none;
+        }
+
+        li {
+            float: left;
+            margin-left: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: black;
+        }
+
+        #window {
+            width: 1200px;
+            height: 535px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        #images {
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.5s;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .red {
+            background-color: brown;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="window">
+        <div id="images">
+            <img src="1.jpg" alt="" width=1200 height=535>
+            <img src="2.jpg" alt="" width=1200 height=535>
+            <img src="3.jpg" alt="" width=1200 height=535>
+            <img src="4.jpg" alt="" width=1200 height=535>
+            <img src="5.jpg" alt="" width=1200 height=535>
+            <img src="6.jpg" alt="" width=1200 height=535>
+        </div>
+    </div>
+    <ul class="clearfix">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+<script>
+    var lis = $('ul>li')
+    //绑定点击事件
+    for (let i = 0; i < lis.length; i++) {
+        $(lis[i]).on('click', function (e) {
+            var index = $(e.currentTarget).index()
+            var p = index * -1200
+            $('#images').css({
+                transform: 'translateX(' + p + 'px)'
+            })
+            n = index
+            activeLi(lis.eq(n))
+        })
+    }
+
+    //自动播放
+    var n = 0
+    var size = lis.length
+    var timerId = setTimer()
+    lis.eq(n % size).trigger('click')
+
+    //函数
+    function setTimer() {
+        return setInterval(() => {
+            n += 1
+            lis.eq(n % size).trigger('click')
+        }, 2500)
+    }
+
+    function activeLi($li) {
+        $li.addClass('red').siblings('.red').removeClass('red')
+    }
+
+    $('#window').on('mouseenter', function () {
+        window.clearInterval(timerId)
+    })
+
+    $('#window').on('mouseleave', function () {
+        timerId = setTimer()
+    })
+</script>
+
+</html>
