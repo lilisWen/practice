@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        ul {
+            margin-left: 40%;
+            list-style: none;
+        }
+
+        li {
+            float: left;
+            margin-left: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: black;
+        }
+
+        #window {
+            width: 1200px;
+            height: 535px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        #images {
+            position: relative;
+        }
+
+        #images img {
+            position: absolute;
+            transition: all 0.5s;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .red {
+            background-color: brown;
+        }
+
+        #images img.current {
+            left: 0;
+            z-index: 2;
+            transform: translateX(0);
+        }
+
+        #images img.leave {
+            transform: translateX(-100%);
+            z-index: 1;
+        }
+
+        #images img.enter {
+            transform: translate(100%);
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="window">
+        <div id="images" class='clearfix'>
+            <img src="1.jpg" alt="" width=1200 height=535>
+            <img src="2.jpg" alt="" width=1200 height=535>
+            <img src="3.jpg" alt="" width=1200 height=535>
+            <img src="4.jpg" alt="" width=1200 height=535>
+            <img src="5.jpg" alt="" width=1200 height=535>
+            <img src="6.jpg" alt="" width=1200 height=535>
+        </div>
+    </div>
+    <ul class="clearfix">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+<script>
+    let n = 1;
+    $(getImage(n)).addClass('current').siblings().addClass('enter')
+    setInterval(() => {
+        makeLeave(getImage(n)).one(
+            'transitionend', (
+                e) => {
+                makeEnter($(e.currentTarget))
+            })
+        makeCurrent(getImage(n + 1))
+        n = n + 1;
+    }, 3000)
+
+
+    function getImage(n) {
+        return $(`#images>img:nth-child(${getN(n)})`)
+    }
+
+    function getN(n) {
+        if (n > 6) {
+            n = n % 6
+            if (n === 0) {
+                n = 6
+            }
+        }
+        return n;
+    }
+
+    function makeCurrent($node) {
+        $node.removeClass('enter leave').addClass('current')
+        return $node
+    }
+
+    function makeLeave($node) {
+        $node.removeClass('current enter').addClass('leave')
+        return $node
+    }
+
+    function makeEnter($node) {
+        $node.removeClass('leave current').addClass('enter')
+        return $node
+    }
+</script>
+
+</html>
