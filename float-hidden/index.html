@@ -89,11 +89,19 @@
     //BUG:点击wrapper还是会隐藏
 
     //最优代码：
+    var isclick = false;
     $('#clickMe').on('click', function () {
-        $('#popover').show()
-        $(document).one('click', function (e) {
+        if (!isclick) {
+            $('#popover').show()
+            $(document).one('click', function (e) {
+                $('#popover').hide()
+            })
+            isclick = true;
+        } else if (isclick) {
             $('#popover').hide()
-        })
+            isclick = false;
+        }
+
     })
     $(wrapper).on('click', function (e) {
         e.stopPropagation()
