@@ -8,24 +8,32 @@
     <title>Document</title>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         ul {
-            margin-left: 40%;
             list-style: none;
+            display: inline-block;
         }
 
         li {
             float: left;
-            margin-left: 20px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: black;
+            padding: 10px;
+            width: 30px;
+        }
+
+        li.act {
+            background: url(./active_bg.png);
         }
 
         #window {
-            width: 1200px;
+            width: 920px;
             overflow: hidden;
-            margin: 0 auto;
+            margin: 30px auto;
+            border: 1px solid lightgray;
+            box-shadow: 0 0 5px 0 gray;
         }
 
         #images {
@@ -47,69 +55,122 @@
         .red {
             background-color: brown;
         }
+
+        #liwrapper {
+            height: 45px;
+            width: 920px;
+            background: url(./panel.jpg);
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
-    <div id="window">
-        <div id="images">
-            <img src="1.jpg" alt="" width=1200 height=535>
-            <img src="2.jpg" alt="" width=1200 height=535>
-            <img src="3.jpg" alt="" width=1200 height=535>
-            <img src="4.jpg" alt="" width=1200 height=535>
-            <img src="5.jpg" alt="" width=1200 height=535>
-            <img src="6.jpg" alt="" width=1200 height=535>
+    <div class="container">
+        <div id="window">
+            <div id="images">
+                <img src="./macbook.jpg" alt="" width="920" height="400">
+                <img src="./iphone.jpg" alt="" width="920" height="400">
+                <img src="./imac.jpg" alt="" width="920" height="400">
+                <img src="./info.jpg" alt="" width="920" height="400">
+            </div>
+            <div id="liwrapper">
+                <ul class="clearfix">
+                    <li class="act"><img src="thumb_macbook.png" alt="thumbnail" /></li>
+                    <li><img src="thumb_iphone.png" alt="thumbnail" /></li>
+                    <li><img src="thumb_imac.png" alt="thumbnail" /></li>
+                    <li><img src="thumb_about.png" alt="thumbnail" /></li>
+                </ul>
+            </div>
         </div>
+
     </div>
-    <ul class="clearfix">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
+
+
 </body>
 <script>
-    var lis = $('ul>li')
-    //绑定点击事件
-    for (let i = 0; i < lis.length; i++) {
-        $(lis[i]).on('click', function (e) {
-            var index = $(e.currentTarget).index()
-            var p = index * -1200
-            $('#images').css({
-                transform: 'translateX(' + p + 'px)'
-            })
-            n = index
-            activeLi(lis.eq(n))
+    let $lis = $('ul>li')
+    let $slides = $('#images')
+    let $images = $slides.children('img')
+    let current = 0
+    makeFakeSlides()
+    $slides.css({
+        transform: 'translateX(-920px)'
+    })
+    let timer = setInterval(function () {
+        goToSlide(current + 1)
+    }, 2000)
+    bindli()
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            window.clearInterval(timer)
+        } else {
+            timer = setInterval(function () {
+                goToSlide(current + 1)
+            }, 2000)
+        }
+    })
+
+    function settime() {
+
+    }
+
+    function bindli() {
+        $(liwrapper).on('click', 'li', function (e) {
+            $li = $(e.currentTarget)
+            let index = $li.index()
+            goToSlide(index)
+            $lis.eq(index).addClass('act').siblings().removeClass('act')
         })
     }
 
-    //自动播放
-    var n = 0
-    var size = lis.length
-    var timerId = setTimer()
-    lis.eq(n % size).trigger('click')
+    function makeFakeSlides() {
+        let $firstCopy = $images.eq(0).clone(true)
+        let $lastCopy = $images.eq($images.length - 1).clone(true)
 
-    //函数
-    function setTimer() {
-        return setInterval(() => {
-            n += 1
-            lis.eq(n % size).trigger('click')
-        }, 2500)
+        $slides.append($firstCopy)
+        $slides.prepend($lastCopy)
     }
 
-    function activeLi($li) {
-        $li.addClass('red').siblings('.red').removeClass('red')
+    function goToSlide(index) {
+        if (index > $lis.length - 1) {
+            index = 0
+        } else if (index < 0) {
+            index = $lis.length - 1
+        }
+        $lis.eq(index).addClass('act').siblings().removeClass('act')
+        //从第一张左滑到最后一张
+        if (current === 0 && index === $lis.length - 1) {
+            $slides.css({
+                transform: `translateX(0px)`
+            })
+            $slides.one('transitionend', function () {
+                $slides.hide().offset()
+                $slides.css({
+                    transform: `translateX(${-(index+1)*920}px)`
+                }).show()
+            })
+        } else if (current === $lis.length - 1 && index === 0) {
+            //从最后一张到第一张
+            $slides.css({
+                transform: `translateX(${-($lis.length+1)*920}px)`
+            })
+            $slides.one('transitionend', function () {
+                $slides.hide()
+                $slides.offset()
+                //offset避免hide后马上就show
+                $slides.css({
+                    transform: `translateX(${-(index+1)*920}px)`
+                }).show()
+            })
+        } else {
+            $slides.css({
+                transform: `translateX(${-(index+1)*920}px)`
+            })
+        }
+        current = index
     }
-
-    $('#window').on('mouseenter', function () {
-        window.clearInterval(timerId)
-    })
-
-    $('#window').on('mouseleave', function () {
-        timerId = setTimer()
-    })
 </script>
 
 </html>
