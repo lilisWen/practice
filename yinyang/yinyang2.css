@@ -1,0 +1,52 @@
+body{
+    background-color: rgb(7, 11, 100);
+}
+h1{
+    color: white;
+    margin: 0 300px;
+}
+@keyframes zhuan{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.yinyang{
+    margin: 100px 300px;
+    width: 144px;
+    height: 144px;
+    border: solid black;
+    background: linear-gradient(to bottom,  #eee 0%,#eee 50%,#000000 51%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border-radius: 50%;
+    position: relative;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 3s;
+    animation-name: zhuan;
+}
+.yinyang::before{
+    box-sizing: content-box;
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 27px solid black;
+    border-radius: 100%;
+    top: 36px;
+    left: 0;
+    background-color: #eee;
+}
+.yinyang::after{
+    box-sizing: content-box;
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 27px solid #eee;
+    border-radius: 50%;
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background-color: black;
+}
