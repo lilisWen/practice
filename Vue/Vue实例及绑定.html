@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .tranRed {
+            color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <span v-html="tishi" v-bind:class="className"></span>
+        {{date | formatdate}} <br>
+        <button v-text="clickme" v-on:click="jicount"></button>
+        <span>{{count}}</span>
+    </div>
+    <script>
+        function plusdate(value) {
+            return value < 10 ? '0' + value : value
+        }
+        var app = new Vue({
+            el: "#app",
+            data: {
+                date: new Date(),
+                clickme: 'clickme',
+                tishi: '<span>现在的时间是：</span>',
+                className: 'tranRed',
+                count: 0
+            },
+            // created: function () {
+            //     alert('Vue实例已经创建，但还未挂载')
+            // },
+            mounted: function () {
+                var _this = this
+                var timer = setInterval(function () {
+                    _this.date = new Date()
+                }, 1000)
+            },
+            filters: {
+                formatdate: function (value) {
+                    var date = new Date(value)
+                    var year = date.getFullYear()
+                    var month = plusdate(date.getMonth() - 1)
+                    var day = plusdate(date.getDate())
+                    var hour = plusdate(date.getHours())
+                    var min = plusdate(date.getMinutes())
+                    var second = plusdate(date.getSeconds())
+                    return year + '/' + month + '/' + day + '  ' + hour + ':' + min + ':' + second
+                }
+            },
+            methods: {
+                jicount: function () {
+                    this.count = this.count + 1;
+                }
+            },
+            beforeDestroy: function () {
+                if (this.timer) {
+                    clearInterval(timer)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
