@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>内置指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        .red {
+            height: 50px;
+            width: 50px;
+            background-color: red;
+        }
+
+        .pink {
+            height: 50px;
+            width: 50px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        基本指令：
+        <span v-cloak>{{msg}}</span>
+        <!-- v-cloak用于防止初始化慢而出现的闪动 -->
+        <span v-once>{{onceDate}}</span>
+        <!-- v-once不管变量如何改变页面都不会重新渲染 -->
+        <hr>
+        条件渲染指令：
+        v-if:
+        <div v-if="type ==='name'">
+            用户名：<input type="text" placeholder="请输入用户名" key="name">
+        </div>
+        <div v-else>
+            密码：<input type="text" placeholder="请输入密码" key="psd">
+        </div>
+        <button v-on:click="toggleType">点我切换</button><br>
+        <!-- 组件复用：如果不加key区分两个input，Vue会对比两个input只渲染不同的地方 -->
+        v-show:
+        <span v-show="9>2">{{msg}}</span><br>
+        <!-- v-show是改变display，所以元素一直在DOM中存在，而v-if控制的标签是不存在于DOM中 -->
+        v-for:v-for一定是写在要遍历的元素上 <br>
+        a><br>
+        遍历一个对象的多个属性
+        <hr>
+        阻止向上冒泡self\stop
+        <div style="background-color: burlywood" @click="clickD">
+            <button @click.stop="clickB">click</button>
+        </div>
+        <hr>
+        键盘监听事件
+        <input type="text" @keyup.enter='submitMe'>
+        双向绑定数据：
+        <input v-model="test" type="text" />{{test}}
+        <hr>
+        TEST:
+        <div :class="className"></div>
+        <button @click="changeColor">变色</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: '我要找工作！！',
+                onceDate: '123345',
+                type: 'name',
+                vueMethods: [{
+                        name: '多思考'
+                    },
+                    {
+                        name: '多实践'
+                    },
+                    {
+                        name: '多敲代码'
+                    }
+                ],
+                test: '',
+                className: 'red'
+            },
+            methods: {
+                toggleType() {
+                    this.type = (this.type === 'name') ? 'psd' : 'name'
+                },
+                submitMe() {
+                    alert('你按下了Enter键')
+                },
+                clickB() {
+                    alert('你点了button')
+                },
+                clickD() {
+                    alert('你点了div')
+                },
+                changeColor() {
+                    this.className = (this.className === 'red') ? 'pink' : 'red'
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

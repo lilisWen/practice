@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+
+<body>
+    实现了两个按钮绑定同一个属性，但点击时互不影响
+    <div id="app">
+        <btn-click></btn-click>
+        <btn-click></btn-click>
+    </div>
+    使用v-bind动态绑定父组件来的内容
+    <div id="bind">
+        <input v-model="parentmsg" type="text" />
+        <bind-component :msg="parentmsg"></bind-component>
+    </div>
+    单向数据流
+    <div id="single">
+        <input v-model="pmsg" type="text" />
+        <my-component :msg="pmsg"></my-component>
+    </div>
+    自定义事件
+    <div id="double">
+        {{money}}
+        <change-money v-model="money"></change-money>
+    </div>
+    <div id="xin">
+        <a-btn ref="a"></a-btn>
+        <b-btn ref="b"></b-btn>
+        <child-btn ref="c"></child-btn>-------{{msg}}
+        <br>
+        子链refs
+        <button @click="getChildData">点我获取子链</button>--------{{formchild}}
+    </div>
+    <hr>
+    插槽slot <br>
+    <div id="cslot">
+        <slot-component>
+        </slot-component>
+        <name-component>
+            <h3 slot="header">我是标题</h3>
+            <p slot="container">我是正文内容</p>
+            <p slot="container">正文内容有两段</p>
+            <p slot="footer">我是底部信息</p>
+        </name-component>
+        <br>
+        <yu-component>
+            <p slot="abc" slot-scope="a">
+                {{a.ss}}
+                {{a.text}}
+            </p>
+        </yu-component>
+        动态挂载
+        <component :is="thisView"></component>
+        <buttton @click="changeHandel('A')">A</buttton>
+        <buttton @click="changeHandel('B')">B</buttton>
+        <buttton @click="changeHandel('C')">C</buttton>
+        <buttton @click="changeHandel('D')">D</buttton>
+    </div>
+
+    <script>
+        //实现了两个按钮绑定同一个属性，但点击时互不影响
+        var app = new Vue({
+            el: "#app",
+            components: {
+                'btn-click': {
+                    template: '<button @click="count++">{{count}}</button>',
+                    data: function () {
+                        return {
+                            count: 0
+                        }
+                    },
+                }
+            }
+        })
+        //使用v-bind动态绑定父组件来的内容
+        new Vue({
+            el: "#bind",
+            components: {
+                'bind-component': {
+                    props: ['msg'],
+                    template: '<div>{{msg}}</div>'
+                }
+            },
+            data: {
+                parentmsg: ''
+            }
+        })
+        //单向数据流，防止子组件更改父组件的值
+        new Vue({
+            el: '#single',
+            data: {
+                pmsg: '0'
+            },
+            components: {
+                'my-component': {
+                    props: ['msg'],
+                    template: '<div :style="style">{{msg}}</div>',
+                    computed: {
+                        style: function () {
+                            return {
+                                width: this.msg + 'px',
+                                height: '20px',
+                                background: 'red'
+                            }
+                        }
+                    },
+                }
+            }
+        })
+        //自定义事件，子组件传值父组件
+        new Vue({
+            el: "#double",
+            data: {
+                money: 1000
+            },
+            components: {
+                'change-money': {
+                    props: [],
+                    template: '<div>\
+                    <button @click="add">+100</button>\
+                    <button @click="reduce">-100</button>\
+                    </div>',
+                    data: function () {
+                        return {
+                            count: 1000
+                        }
+                    },
+                    methods: {
+                        add: function () {
+                            this.count = this.count + 100
+                            //用v-model优化
+                            // this.$emit('change', this.count)
+                            this.$emit('input', this.count)
+                        },
+                        reduce: function () {
+                            this.count = this.count - 100
+                            // this.$emit('change', this.count)
+                            this.$emit('input', this.count)
+                        }
+                    },
+                }
+            },
+            methods: {
+                changemoney: function (value) {
+                    this.money = value
+                }
+            },
+        })
+        //非父组件之间的通信
+        Vue.component('a-btn', {
+            template: '<div><button @click="handle">点击我向B组件传递数据</button></div>',
+            data: function () {
+                return {
+                    aaa: '我是来自A组件的内容',
+                    msg: '我是a'
+                }
+            },
+            methods: {
+                handle: function () {
+                    this.$root.bus.$emit('send', this.aaa)
+                }
+            }
+        });
+        Vue.component('b-btn', {
+            template: '<div></div>',
+            created: function () {
+                //b组件在实例创建后就监听send事件
+                this.$root.bus.$on('send', function (value) {
+                    alert(value)
+                });
+            },
+            data: function () {
+                return {
+                    msg: '我是b'
+                }
+            }
+        });
+        //父链this.$parent
+        Vue.component('child-btn', {
+            template: '<button @click="setFatherData">通过点击我修改父亲的数据</button>',
+            methods: {
+                setFatherData: function () {
+                    this.$parent.msg = '数据已经修改了'
+                }
+            },
+            data: function () {
+                return {
+                    msg: '我是c'
+                }
+
+            }
+        });
+        //子链this.$refs
+        new Vue({
+            el: "#xin",
+            data: {
+                bus: new Vue(),
+                msg: '数据未修改',
+                formchild: ''
+            },
+            methods: {
+                getChildData: function () {
+                    //用来拿子组件中的内容 ---- $refs
+                    this.formchild = this.$refs.a.msg;
+                }
+            }
+        })
+        //具名插槽
+        Vue.component('name-component', {
+            template: '<div>\
+            <div class="header">\
+            <slot name=header>\
+            </slot>\
+            </div>\
+            <div class="container">\
+            <slot name=container>\
+            </slot>\
+            </div>\
+            <div class="footer">\
+            <slot name=footer>\
+            </slot>\
+            </div>\
+        </div>'
+        })
+        //作用域插槽
+        Vue.component('yu-component', {
+            template: '<div>\
+                       <slot text="我是来自子组件的数据" ss="fdjkfjlsd" name="abc" >\
+                       </slot>\
+                       </div>'
+        })
+        //动态插槽
+        Vue.component('compA', {
+            template: '<div>离离原上草</div>'
+        })
+        Vue.component('compB', {
+            template: '<div>一岁一枯荣</div>'
+        })
+        Vue.component('compC', {
+            template: '<div>野火烧不尽</div>'
+        })
+        Vue.component('compD', {
+            template: '<div>春风吹又生</div>'
+        })
+        //单个插槽
+        new Vue({
+            el: "#cslot",
+            components: {
+                'slot-component': {
+                    template: '<div>\
+                    <slot>\
+                    如果父组件没有内容，我就会默认显示\
+                    </slot>\
+                    </div>'
+                }
+            },
+            data: {
+                thisView: 'compA'
+            },
+            methods: {
+                changeHandel: function (value) {
+                    this.thisView = 'comp' + value
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

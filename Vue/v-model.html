@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        单选：
+        male<input type="radio" name="male" v-model="picked" value="male"><br>
+        female<input type="radio" name="female" v-model="picked" value="female">
+        {{picked}}
+        <br>
+        复选：
+        1<input type="checkbox" v-model="checks" value="1" name="1">
+        2<input type="checkbox" v-model="checks" value="2" name="2">
+        3<input type="checkbox" v-model="checks" value="3" name="3">
+        <br>
+        {{checks}}
+        下拉框选择：
+        <select v-model="selects">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <br>
+        {{selects}}
+        <br>
+        单选初始化给string，多选给数组
+        <hr>
+        <input v-model.lazy="msg" type="text" />{{msg|toUp}}
+    </div>
+    <script>
+        new Vue({
+            el: "#container",
+            data() {
+                return {
+                    checks: [],
+                    selects: '',
+                    msg: '',
+                    picked: '',
+                    sex: 'male'
+                }
+            },
+            filters: {
+                toUp: function (value) {
+                    if (!value) return;
+                    return value.substring(0, 1).toUpperCase() + value.substring(1)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

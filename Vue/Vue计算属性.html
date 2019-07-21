@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .black {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        以下是computed:
+        {{reverseText}}
+        <br>
+        以下是methods:
+        {{transformText()}}
+        <br>
+        {{name}}
+        <span v-bind:class="[fred,bblack]">数组</span>
+        <span v-bind:style="{'color':fred}">style</span>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                test: '123,456,789',
+                firstName: 'Wen',
+                lastName: 'Li',
+                fullName: '',
+                fred: 'red',
+                bblack: 'black'
+            },
+            computed: {
+                reverseText: function () {
+                    return this.test.split(',').reverse().join(',');
+                },
+                name: function () {
+                    this.fullName = this.firstName + this.lastName
+                    return this.fullName
+                }
+            },
+            methods: {
+                transformText: function () {
+                    return this.test.split(',').reverse().join(',');
+                }
+            },
+            watch: {
+                firstName(newName, oldName) {
+                    this.fullName = this.newName + this.lastName
+                },
+                lastName(newName, oldName) {
+                    this.fullName = this.firstName + this.newName
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
