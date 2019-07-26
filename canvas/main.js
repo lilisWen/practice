@@ -73,18 +73,25 @@ function listenToUser() {
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
             } else {
-                lastpoint = { 'x': x, 'y': y }
+                lastpoint = {
+                    'x': x,
+                    'y': y
+                }
                 drawCircle(x, y, 2)
             }
         }
         div.ontouchmove = function (e) {
+            e.preventDefault();
             if (using) {
                 var x = e.touches[0].clientX
                 var y = e.touches[0].clientY - 40
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
-                    var newpoint = { 'x': x, 'y': y }
+                    var newpoint = {
+                        'x': x,
+                        'y': y
+                    }
                     drawCircle(x, y, 2)
                     drawLine(lastpoint.x, lastpoint.y, newpoint.x, newpoint.y)
                     lastpoint = newpoint
@@ -103,7 +110,10 @@ function listenToUser() {
             if (eraserEnabled) {
                 context.clearRect(x - 5, y - 5, 10, 10)
             } else {
-                lastpoint = { 'x': x, 'y': y }
+                lastpoint = {
+                    'x': x,
+                    'y': y
+                }
                 drawCircle(x, y, 2)
             }
         }
@@ -114,7 +124,10 @@ function listenToUser() {
                 if (eraserEnabled) {
                     context.clearRect(x - 5, y - 5, 10, 10)
                 } else {
-                    var newpoint = { 'x': x, 'y': y }
+                    var newpoint = {
+                        'x': x,
+                        'y': y
+                    }
                     drawCircle(x, y, 2)
                     drawLine(lastpoint.x, lastpoint.y, newpoint.x, newpoint.y)
                     lastpoint = newpoint
@@ -135,17 +148,20 @@ function drawLine(x1, y1, x2, y2) {
     context.lineTo(x2, y2)
     context.stroke()
 }
+
 function drawCircle(x, y, r) {
     context.beginPath()
     context.arc(x, y, r, 0, Math.PI * 2)
     context.fill()
 }
+
 function setCanvasSize() {
     var pageWidth = document.documentElement.clientWidth
     var pageHeight = document.documentElement.clientHeight
     div.width = pageWidth
     div.height = pageHeight - 60
 }
+
 function autoSetCanvasSize() {
     setCanvasSize()
     window.onresize = function () {

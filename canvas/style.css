@@ -1,50 +1,62 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-body{
+
+body {
     /* background:url(./网格.png);
     background-size: cover; */
     overflow: hidden;
 }
-ul{
+
+ul {
     list-style: none;
 }
-canvas{
+
+canvas {
     margin-top: 40px;
     position: fixed;
     left: 0;
     top: 0;
+    right: 0;
+    bottom: 0;
 }
+
 .icon {
-    width: 1em; height: 1em;
+    width: 1em;
+    height: 1em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
- }
-.action{
+}
+
+.action {
     position: fixed;
     top: 0;
     left: 0;
     padding: 10px;
 }
-.action svg{
+
+.action svg {
     width: 1.6em;
     height: 1.6em;
     transition: all 0.3s;
     margin-right: 5px;
     fill: lightgray;
 }
-.action svg.active{
-    fill:palevioletred;
+
+.action svg.active {
+    fill: palevioletred;
     transform: scale(1.2);
 }
-#colors{
+
+#colors {
     position: fixed;
     top: 8px;
     left: 90px;
 }
-#colors>li{
+
+#colors>li {
     width: 26px;
     height: 26px;
     border: 1px solid lightgray;
@@ -53,56 +65,67 @@ canvas{
     border-radius: 50%;
     transition: all 0.3s;
 }
-#colors li.active{
+
+#colors li.active {
     transform: scale(1.2);
 }
-#black{
+
+#black {
     background-color: black;
 }
-#red{
+
+#red {
     background-color: brown;
 }
-#pink{
+
+#pink {
     background-color: palevioletred;
 }
-#blue{
+
+#blue {
     background-color: cornflowerblue;
 }
-#sizes{
+
+#sizes {
     position: fixed;
     top: 12px;
     left: 220px;
 }
-#sizes>li{
+
+#sizes>li {
     margin-bottom: 12px;
 }
-.thin{
+
+.thin {
     height: 0;
     width: 40px;
     border-top: 3px solid black;
 }
-.thick{
+
+.thick {
     height: 0;
     width: 40px;
     border-top: 5px solid black;
 }
-#clear{
+
+#clear {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 1.6em;
     height: 1.6em;
 }
-#save{
+
+#save {
     position: fixed;
     right: 10px;
     top: 8px;
     width: 1.6em;
     height: 1.6em;
 }
-.clearfix::after{
+
+.clearfix::after {
     content: "";
     display: block;
     clear: both;
 }
-
